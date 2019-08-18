@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>GP Calculator</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <link rel="stylesheet" href="lib/bootstrap.min.css">
+        <script src="lib/jquery.min.js"></script>
+        <script src="lib/popper.min.js"></script>
+        <script src="lib/bootstrap.min.js"></script>
+        <script src="lib/vue.min.js"></script>
+        <script src="lib/axios.min.js"></script>
+    </head>
+    <body style='background:#f6f6ff'>
+        <div id="app" class="container p-4">
+            <div>
+                <div v-for="(course,index) in courses" :key="course.course">
+                    <course :course='course' :index='index+1'></course>
+                </div>
+            </div>
+            <div class='text-center'>
+                <button class="btn btn-primary" @click='addCourse'>Add course</button>
+            </div>
+            <br/>
+            <div class='row'>
+                <p class='col-6'>Total grades: {{ getTotalGrades }}</p>
+                <p class='col-6'>Total units: {{ getTotalUnits }}</p>
+            </div>
+            <div>
+                <p class='alert alert-info lead'>Your current GP is: {{ getGP }}</p>
+            </div>
+            <div>
+                <input type='text' class='form-control' placeholder='Saved Name' v-model="saved"/><br>
+                <div class='text-center'>
+                    <button class='btn btn-success' :disabled='shouldDisable' @click='saveCourses'>Save</button>
+                    <button class='btn btn-warning' :disabled='shouldDisable' @click='loadCourses'>Load</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="app.js"></script>
+    </body>
+</html>
