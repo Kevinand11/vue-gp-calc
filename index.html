@@ -6,35 +6,51 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <link rel="stylesheet" href="lib/bootstrap.min.css">
-        <script src="lib/jquery.min.js"></script>
-        <script src="lib/popper.min.js"></script>
-        <script src="lib/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="lib/sweetalert2.min.css">
+        <script src="lib/sweetalert2.min.js"></script>
         <script src="lib/vue.min.js"></script>
-        <script src="lib/axios.min.js"></script>
     </head>
     <body style='background:#f6f6ff'>
         <div id="app" class="container p-4">
-            <div>
-                <div v-for="(course,index) in courses" :key="course.course">
-                    <course :course='course' :index='index+1'></course>
+            <h1 class="text-center display-4 text-info mb-4">Vue GP Calculator</h1>
+            <div class="bg-white p-4">
+                <div>
+                    <div v-for="(course,index) in courses" :key="index">
+                        <course :course='course' :index='index+1'>
+                            <template slot="close">
+                                <span class="text-danger" @click="removeCourse(course)">X</span>
+                            </template>
+                        </course>
+                    </div>
+                </div>
+                <div class='text-center'>
+                    <button class="btn btn-primary" @click='addCourse'>Add course</button>
+                </div>
+                <br/>
+                <div class='row'>
+                    <p class='col-6'>Total grades: {{ getTotalGrades }}</p>
+                    <p class='col-6'>Total units: {{ getTotalUnits }}</p>
+                </div>
+                <div>
+                    <p class='alert alert-info lead'>Your current GP is: {{ getGP }}</p>
                 </div>
             </div>
-            <div class='text-center'>
-                <button class="btn btn-primary" @click='addCourse'>Add course</button>
-            </div>
-            <br/>
-            <div class='row'>
-                <p class='col-6'>Total grades: {{ getTotalGrades }}</p>
-                <p class='col-6'>Total units: {{ getTotalUnits }}</p>
-            </div>
-            <div>
-                <p class='alert alert-info lead'>Your current GP is: {{ getGP }}</p>
-            </div>
-            <div>
-                <input type='text' class='form-control' placeholder='Saved Name' v-model="saved"/><br>
-                <div class='text-center'>
-                    <button class='btn btn-success' :disabled='shouldDisable' @click='saveCourses'>Save</button>
-                    <button class='btn btn-warning' :disabled='shouldDisable' @click='loadCourses'>Load</button>
+            <div class="bg-white p-4 mt-3">
+                <div>
+                    <input type='text' class='form-control' placeholder='Save as or Load saved' v-model="saved"/><br>
+                    <div class='text-center'>
+                        <button class='btn btn-success mr-2' :disabled='shouldDisable' @click='saveCourses'>Save</button>
+                        <button class='btn btn-warning' :disabled='shouldDisable' @click='loadCourses'>Load</button>
+                    </div>
+                </div>
+                <div class="mt-5" v-if="anyStoredResults">
+                    <p class="lead">Saved Results</p>
+                    <ul class="list-group">
+                        <li class="list-group-item my-1" v-for="res,key in getStoredResults" :key="key">
+                            {{ key }}
+                            <span class="text-danger float-right" @click="removeFromStored(key)">X</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
