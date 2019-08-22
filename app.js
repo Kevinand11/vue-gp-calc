@@ -45,7 +45,7 @@ Vue.component('course',{
             </div>
             <div class='col-1'>
                 <div class='form-group'>
-                    <label for='index' v-if="index == 1">&nbsp;</label>
+                    <label for='index' v-if="index == 1">&nbsp;</label><br v-if='index == 1'>
                     <slot name="close"></slot>
                 </div>
             </div>
